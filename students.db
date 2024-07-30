@@ -1,0 +1,648 @@
+--entity create statements
+create table students(sid int primary key, sname varchar, smail varchar unique, ph_no int);
+create table courses(cid int primary key, cname varchar, cmail varchar, ph_no int);
+create table faculty(fid int primary key, fname varchar, fmail varchar, ph_no int);
+create table department(did int primary key, dname varchar);
+create table events(ename varchar, event_type varchar, status varchar);
+create table library(lid int primary key, lname varchar, operating_hours int);
+create table books(bid int primary key, bname varchar, author varchar);
+create table alumni(aid int primary key, aname varchar, years_since varchar);
+create table hostlers(hid int primary key, hname varchar, room_no varchar);
+create table dayscholar(did int primary key, dname varchar);
+create table clubs(cname varchar unique, club_type varchar, membership boolean);
+create table student_portal(username varchar unique, info varchar, password varchar);
+create table student_profile(pid int primary key, name varchar, age varchar, gender varchar);
+create table attendance(aid int primary key, issued varchar);
+create table submission_portal(subno int primary key, title varchar);
+create table feedback(fno int primary key, response varchar);
+create table university(uid int primary key, name varchar, campus varchar);
+create table eca(ename varchar, etype varchar);
+create table infrastructure(type_of_facility varchar);
+create table research_lab(lib int primary key, projects varchar);
+create table hod(hname varchar, expertise varchar, phno int);
+create table transcript(tid int primary key, credits int, honors varchar);
+
+-- relationship create statements
+create table registers(sid int, cid int, foreign key (sid) references students(sid), foreign key (cid) references courses(cid));
+create table co_ordinate(fid int, hname varchar, foreign key (fid) references faculty(fid));
+create table manage(cid int, hname varchar, since int, foreign key (cid) references courses(cid), foreign key (hname) references hod(hname));
+create table offers(cid int, did int, foreign key (cid) references courses(cid), foreign key (did) references department(did));
+create table directs(expertise varchar, did int, foreign key (expertise) references hod(expertise), foreign key (did) references department(did));
+create table contains(pid int, password varchar, foreign key (pid) references student_profile(pid), foreign key (password) references student_portal(password));
+create table access(username varchar, sid int, foreign key (username) references student_portal(username), foreign key (sid) references students(sid));
+create table enrolls(sid int, uid int, foreign key (sid) references students(sid), foreign key (uid) references university(uid));
+create table collects(aid int, tid int, foreign key (aid) references alumni(aid), foreign key (tid) references transcript(tid));
+create table consists(lid int, bid int, foreign key (lid) references library(lid), foreign key (bid) references books(bid));
+create table oversees(uid int, cname varchar, foreign key (uid) references university(uid), foreign key (cname) references clubs(cname));
+create table provides(campus varchar, ename varchar, foreign key (campus) references university(campus), foreign key (ename) references eca(ename));
+create table has(uid int, lid int, foreign key (uid) references university(uid), foreign key (lid) references library(lid));
+create table hosts(cname varchar, status varchar, foreign key (cname) references clubs(cname), foreign key (status) references events(status));
+
+--insert statements for entities
+
+INSERT INTO students (sid, sname, smail, ph_no) 
+VALUES 
+    (1, 'srihitha', 'srihitha@gmail.com', 1234567890),
+    (2, 'sampath', 'sampath@gmail.com', 2345678901),
+    (3, 'hemanth', 'hemanth@gmail.com', 3456789012),
+    (4, 'jayavardhan', 'jayavardhan@gmail.com', 4567890123),
+    (5, 'sridhar', 'sridhar@gmail.com', 5678901234);
+
+INSERT INTO courses (cid, cname, cmail, ph_no) 
+VALUES 
+    (1, 'Computer Science', 'cs@gmail.com', 1112223333),
+    (2, 'Electrical Engineering', 'ee@gmail.com', 2223334444),
+    (3, 'Civil Engineering', 'ce@gmail.com', 3334445555),
+    (4, 'Mechanical Engineering', 'me@gmail.com', 4445556666),
+    (5, 'Information Technology', 'it@gmail.com', 5556667777);
+
+
+INSERT INTO faculty (fid, fname, fmail, ph_no) 
+VALUES 
+    (1, 'Dr. Suresh Menon', 'suresh.menon@gmail.com', 1234567890),
+    (2, 'Dr. Aishwarya Gupta', 'aishwarya.gupta@gmail.com', 23456789),
+    (3, 'Dr. Karthik Shah', 'karthik.shah@gmail.com', 3456789012),
+    (4, 'Dr. Priya Sharma', 'priya.sharma@gmail.com', 4567890123),
+    (5, 'Dr. Ramesh Iyer', 'ramesh.iyer@gmail.com', 5678901234);
+
+
+INSERT INTO department (did, dname) 
+VALUES 
+    (1, 'Computer Science Department'),
+    (2, 'Electrical Engineering Department'),
+    (3, 'Civil Engineering Department'),
+    (4, 'Mechanical Engineering Department'),
+    (5, 'Information Technology Department');
+
+
+INSERT INTO events (ename, event_type, status) 
+VALUES 
+    ('Tech Fest', 'Technical', 'Active'),
+    ('Cultural Night', 'Cultural', 'Active'),
+    ('Workshop', 'Technical', 'Inactive'),
+    ('Seminar', 'Academic', 'Active'),
+    ('Hackathon', 'Technical', 'Active');
+
+INSERT INTO library (lid, lname, operating_hours) 
+VALUES 
+    (1, 'City Library', 8),
+    (2, 'Town Library', 10),
+    (3, 'Central Library', 12),
+    (4, 'Public Library', 9),
+    (5, 'University Library', 24);
+
+
+INSERT INTO books (bid, bname, author) 
+VALUES 
+    (1, 'Introduction to Python', 'John Smith'),
+    (2, 'Data Structures and Algorithms', 'Alice Jones'),
+    (3, 'Machine Learning Basics', 'David Brown'),
+    (4, 'Web Development Guide', 'Emma Davis'),
+    (5, 'Network Security Handbook', 'Kevin Wilson');
+
+
+INSERT INTO alumni (aid, aname, years_since) 
+VALUES 
+    (1, 'dinisha', '3 years'),
+    (2, 'navya', '5 years'),
+    (3, 'praveen', '2 years'),
+    (4, 'bhavana', '4 years'),
+    (5, 'srija', '1 year');
+
+INSERT INTO hostlers (hid, hname, room_no) 
+VALUES 
+    (1, 'naveen', 'A101'),
+    (2, 'avinash', 'B201'),
+    (3, 'mihas', 'C301'),
+    (4, 'rohini', 'D401'),
+    (5, 'sai', 'E501');
+
+INSERT INTO dayscholar (did, dname) 
+VALUES 
+    (1, 'Ravi'),
+    (2, 'Akansha'),
+    (3, 'Aryan'),
+    (4, 'Neha'),
+    (5, 'Varun');
+
+INSERT INTO clubs (cname, club_type, membership) 
+VALUES 
+    ('Art Club', 'Artistic', true),
+    ('Music Club', 'Melodic', true),
+    ('Dance Club', 'Rhythmic', true),
+    ('Sports Club', 'Athletic', true),
+    ('Debate Club', 'Intellectual', true);
+
+
+INSERT INTO student_portal (username, info, password) 
+VALUES 
+    ('srihitha', 'Student', 'pass123'),
+    ('sampath', 'Student', 'password456'),
+    ('hemanth', 'Student', '12345pass'),
+    ('jayavardhan', 'Student', 'letmein'),
+    ('sridhar', 'Student', 'gupta123');
+
+INSERT INTO student_profile (pid, name, age, gender) 
+VALUES 
+    (1, 'Divya', '21', 'Female'),
+    (2, 'Varun', '22', 'Male'),
+    (3, 'navyla', '20', 'Female'),
+    (4, 'Amity', '23', 'Male'),
+    (5, 'Rahul', '24', 'Male');
+
+
+INSERT INTO attendance (aid, issued) 
+VALUES 
+    (1, '2022-03-20'),
+    (2, '2022-03-21'),
+    (3, '2022-03-22'),
+    (4, '2022-03-23'),
+    (5, '2022-03-24');
+
+INSERT INTO submission_portal (subno, title) 
+VALUES 
+    (1, 'Research Paper Submission'),
+    (2, 'Project Proposal Submission'),
+    (3, 'Assignment Submission'),
+    (4, 'Essay Submission'),
+    (5, 'Report Submission');
+
+INSERT INTO feedback (fno, response) 
+VALUES 
+    (1, 'Great effort!'),
+    (2, 'Well done!'),
+    (3, 'Impressive work!'),
+    (4, 'Excellent performance!'),
+    (5, 'Keep it up!');
+
+INSERT INTO university (uid, name, campus) 
+VALUES 
+    (1, 'Sunrise University', 'Gitam Campus'),
+    (2, 'Moonlight College', 'Hilltop Campus'),
+    (3, 'Star University', 'City Center Campus'),
+    (4, 'Galaxy Institute', 'Downtown Campus'),
+    (5, 'Nebula College', 'Suburban Campus');
+
+INSERT INTO eca (ename, etype) 
+VALUES 
+    ('Drama Club', 'Cultural'),
+    ('Coding Club', 'Technical'),
+    ('Sports Club', 'Athletic'),
+    ('Music Club', 'Melodic'),
+    ('Debate Club', 'Intellectual');
+
+INSERT INTO infrastructure (type_of_facility) 
+VALUES 
+    ('Sports Complex'),
+    ('Auditorium'),
+    ('Gymnasium'),
+    ('Library'),
+    ('Laboratory');
+
+INSERT INTO research_lab (lib, projects) 
+VALUES 
+    (1, 'Renewable Energy Research Lab'),
+    (2, 'Artificial Intelligence Lab'),
+    (3, 'Robotics Lab'),
+    (4, 'Bioinformatics Lab'),
+    (5, 'Cybersecurity Lab');
+
+INSERT INTO hod (hname, expertise, phno) 
+VALUES 
+    ('Dr. Akshay Menon', 'Thermal Engineering', 9876543210),
+    ('Dr. Priya Kumar', 'Civil Engineering', 8765432109),
+    ('Dr. Ramesh Iyer', 'Mechanical Engineering', 7654321098),
+    ('Dr. Anita Sharma', 'Electrical Engineering', 6543210987),
+    ('Dr. Ashok Patel', 'Computer Science', 5432109876);
+
+INSERT INTO transcript (tid, credits, honors) 
+VALUES 
+    (1, 140, 'With High Honors'),
+    (2, 120, 'With Honors'),
+    (3, 130, 'With Distinction'),
+    (4, 110, 'With Merit'),
+    (5, 100, 'Pass');
+
+--insert statements for relation statements
+
+INSERT INTO registers (sid, cid) 
+VALUES 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5);
+
+INSERT INTO co_ordinate (fid, hname) 
+VALUES 
+    (1, 'Computer Science Department'),
+    (2, 'Electrical Engineering Department'),
+    (3, 'Civil Engineering Department'),
+    (4, 'Mechanical Engineering Department'),
+    (5, 'Information Technology Department');
+
+INSERT INTO manage (cid, hname, since) 
+VALUES 
+    (1, 'Dr. Suresh Menon', 2018),
+    (2, 'Dr. Aishwarya Gupta', 2019),
+    (3, 'Dr. Karthik Shah', 2020),
+    (4, 'Dr. Priya Sharma', 2021),
+    (5, 'Dr. Ramesh Iyer', 2022);
+
+INSERT INTO offers (cid, did) 
+VALUES 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5);
+
+INSERT INTO directs (expertise, did) 
+VALUES 
+    ('Thermal Engineering', 1),
+    ('Civil Engineering', 2),
+    ('Mechanical Engineering', 3),
+    ('Electrical Engineering', 4),
+    ('Computer Science', 5);
+
+INSERT INTO contains (pid, password) 
+VALUES 
+    (1, 'pass123'),
+    (2, 'password456'),
+    (3, '12345pass'),
+    (4, 'letmein'),
+    (5, 'gupta123');
+
+INSERT INTO access (username, sid) 
+VALUES 
+    ('srihitha', 1),
+    ('sampath', 2),
+    ('hemanth', 3),
+    ('jayavardhan', 4),
+    ('sridhar', 5);
+
+INSERT INTO enrolls (sid, uid) 
+VALUES 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5);
+
+INSERT INTO collects (aid, tid) 
+VALUES 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5);
+
+INSERT INTO consists (lid, bid) 
+VALUES 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5);
+
+INSERT INTO oversees (uid, cname) 
+VALUES 
+    (1, 'Art Club'),
+    (2, 'Music Club'),
+    (3, 'Dance Club'),
+    (4, 'Sports Club'),
+    (5, 'Debate Club');
+
+INSERT INTO provides (campus, ename) 
+VALUES 
+    ('Gitam Campus', 'Drama Club'),
+    ('Hilltop Campus', 'Coding Club'),
+    ('City Center Campus', 'Sports Club'),
+    ('Downtown Campus', 'Music Club'),
+    ('Suburban Campus', 'Debate Club');
+
+INSERT INTO has (uid, lid) 
+VALUES 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5);
+
+INSERT INTO hosts (cname, status) 
+VALUES 
+    ('Art Club', 'Active'),
+    ('Music Club', 'Active'),
+    ('Dance Club', 'Inactive'),
+    ('Sports Club', 'Active'),
+    ('Debate Club', 'Active');
+
+
+--select statements
+SELECT * FROM students;
+select'--------------------------------------------------';
+
+SELECT * FROM courses;
+select'--------------------------------------------------';
+
+SELECT * FROM faculty;
+select'--------------------------------------------------';
+
+SELECT * FROM department;
+select'--------------------------------------------------';
+
+SELECT * FROM events;
+select'--------------------------------------------------';
+
+SELECT * FROM library;
+select'--------------------------------------------------';
+
+SELECT * FROM books;
+select'--------------------------------------------------';
+
+SELECT * FROM alumni;
+select'--------------------------------------------------';
+
+SELECT * FROM hostlers;
+select'--------------------------------------------------';
+
+SELECT * FROM dayscholar;
+select'--------------------------------------------------';
+
+SELECT * FROM clubs;
+select'--------------------------------------------------';
+
+SELECT * FROM student_portal;
+select'--------------------------------------------------';
+
+SELECT * FROM student_profile;
+select'--------------------------------------------------';
+
+SELECT * FROM attendance;
+select'--------------------------------------------------';
+
+SELECT * FROM submission_portal;
+select'--------------------------------------------------';
+
+SELECT * FROM feedback;
+select'--------------------------------------------------';
+
+SELECT * FROM university;
+select'--------------------------------------------------';
+
+SELECT * FROM eca;
+select'--------------------------------------------------';
+
+SELECT * FROM infrastructure;
+select'--------------------------------------------------';
+
+SELECT * FROM research_lab;
+select'--------------------------------------------------';
+
+SELECT * FROM hod;
+select'--------------------------------------------------';
+
+SELECT * FROM transcript;
+select'--------------------------------------------------';
+
+SELECT * FROM registers;
+select'--------------------------------------------------';
+
+SELECT * FROM co_ordinate;
+select'--------------------------------------------------';
+
+SELECT * FROM manage;
+select'--------------------------------------------------';
+
+SELECT * FROM offers;
+select'--------------------------------------------------';
+
+SELECT * FROM directs;
+select'--------------------------------------------------';
+
+SELECT * FROM contains;
+select'--------------------------------------------------';
+
+SELECT * FROM access;
+select'--------------------------------------------------';
+
+SELECT * FROM enrolls;
+select'--------------------------------------------------';
+
+SELECT * FROM collects;
+select'--------------------------------------------------';
+
+SELECT * FROM consists;
+select'--------------------------------------------------';
+
+SELECT * FROM oversees;
+select'--------------------------------------------------';
+
+SELECT * FROM provides;
+select'--------------------------------------------------';
+
+SELECT * FROM has;
+select'--------------------------------------------------';
+
+SELECT * FROM hosts;
+select'--------------------------------------------------';
+
+
+-- DDL commands
+-- Modify table students to add address column
+ALTER TABLE students ADD COLUMN address VARCHAR(100);
+
+-- Modify table students to drop address column
+ALTER TABLE students DROP COLUMN address;
+
+-- Rename table eca to extra_ca
+ALTER TABLE eca RENAME TO extra_ca;
+
+-- Truncate table extra_ca
+DELETE FROM extra_ca;
+
+-- Drop table extra_ca
+DROP TABLE extra_ca;
+
+select'--------------------------------------------------';
+
+-- DML commands
+-- Before updating
+SELECT * FROM students;
+
+-- Update student name
+UPDATE students
+SET sname = 'Srihitha'
+WHERE sid = 1;
+
+-- After updating
+SELECT * FROM students;
+
+-- Before deleting
+SELECT * FROM courses;
+
+-- Delete course with id=1
+DELETE FROM courses
+WHERE cid = 1;
+
+-- After delete
+SELECT * FROM courses;
+
+select'--------------------------------------------------';
+
+-- Aggregate operations
+-- 1. Count
+-- How many students are there in the database?
+SELECT COUNT(sid) AS num_students FROM students;
+
+-- How many active events are currently ongoing?
+SELECT COUNT(ename) AS num_active_events FROM events WHERE status = 'Active';
+
+select'--------------------------------------------------';
+
+-- 2. Average
+-- What is the average operating hours of all the libraries?
+
+
+SELECT AVG(operating_hours) AS avg_hours FROM library;
+
+-- What is the average age of all the students?
+SELECT AVG(CAST(age AS INTEGER)) AS avg_age FROM student_profile;
+
+select'--------------------------------------------------';
+
+-- 3. Max
+-- What is the maximum number of years since graduation for any alumni?
+SELECT MAX(CAST(SUBSTR(years_since, 1, INSTR(years_since, ' ') - 1) AS INTEGER)) AS max_years_since FROM alumni;
+
+-- What is the maximum age among all the students?
+SELECT MAX(CAST(age AS INTEGER)) AS max_age FROM student_profile;
+
+select'--------------------------------------------------';
+
+-- 4. Min
+-- What is the minimum number of credits in any transcript?
+SELECT MIN(credits) AS min_credits FROM transcript;
+
+-- What is the minimum age among all the students?
+SELECT MIN(CAST(age AS INTEGER)) AS min_age FROM student_profile;
+
+select'--------------------------------------------------';
+
+-- 5. Sum
+-- What is the total sum of credits in all the transcripts?
+SELECT SUM(credits) AS total_credits FROM transcript;
+
+-- What is the total sum of operating hours for all the libraries?
+SELECT SUM(operating_hours) AS total_hours FROM library;
+
+select'--------------------------------------------------';
+
+-- Nested queries
+-- Find the names of students who are enrolled in courses offered by the 'Drama Club'.
+SELECT sname
+FROM students
+WHERE sid IN (
+    SELECT sid
+    FROM registers
+    WHERE cid IN (
+        SELECT cid
+        FROM offers
+        WHERE did IN (
+            SELECT did
+            FROM provides
+            WHERE ename = 'Drama Club'
+        )
+    )
+);
+
+select'--------------------------------------------------';
+
+-- Find the names of faculties who coordinate courses for students enrolled in the 'Computer Science Department'
+SELECT fname
+FROM faculty
+WHERE EXISTS (
+    SELECT 1
+    FROM co_ordinate
+    WHERE co_ordinate.fid = faculty.fid
+    AND co_ordinate.hname IN (
+        SELECT dname
+        FROM department
+        WHERE did = (
+            SELECT did
+            FROM offers
+            WHERE cid IN (
+                SELECT cid
+                FROM registers
+                WHERE sid IN (
+                    SELECT sid
+                    FROM students
+                    WHERE sid IN (
+                        SELECT sid
+                        FROM access
+                        WHERE username = 'srihitha'
+                    )
+                )
+            )
+        )
+    )
+);
+
+select'--------------------------------------------------';
+
+-- Correlated nested queries
+
+--Find the names of students who are enrolled in courses offered by the 'Drama Club'.
+
+  SELECT sname
+  FROM students
+  WHERE sid IN (
+      SELECT sid
+      FROM registers
+      WHERE cid IN (
+          SELECT cid
+          FROM offers
+          WHERE did IN (
+              SELECT did
+              FROM provides
+              WHERE ename = 'Drama Club'
+          )
+      )
+  );
+
+select'--------------------------------------------------';
+
+-- Find the names of faculty members who coordinate courses for students enrolled in the 'Computer Science Department'.
+SELECT fname
+FROM faculty
+WHERE EXISTS (
+    SELECT 1
+    FROM co_ordinate
+    WHERE co_ordinate.fid = faculty.fid
+    AND co_ordinate.hname IN (
+        SELECT dname
+        FROM department
+        WHERE did = (
+            SELECT did
+            FROM offers
+            WHERE cid IN (
+                SELECT cid
+                FROM registers
+                WHERE sid IN (
+                    SELECT sid
+                    FROM students
+                    WHERE sid IN (
+                        SELECT sid
+                        FROM access
+                        WHERE username = 'srihitha'
+                    )
+                )
+            )
+        )
+    )
+);
+
+select'--------------------------------------------------';
+
+
+
